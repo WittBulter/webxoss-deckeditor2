@@ -44,7 +44,7 @@ const checkIndexedDBSupport = () => {
 }
 
 /* Helper functions */
-const get = (url, type, callback, err) => {
+export const get = (url, type, callback, err) => {
   let xhr = new XMLHttpRequest()
   xhr.responseType = type
   xhr.onload = () => {
