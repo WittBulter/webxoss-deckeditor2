@@ -2,7 +2,7 @@
 import AppHeader from 'components/AppHeader'
 import CardImage from 'components/CardImage'
 import Localize from 'js/Localize'
-import { get } from 'js/ImageFileCache'
+import { $get } from 'js/ImageFileCache'
 
 export default {
   components: {
@@ -30,9 +30,8 @@ export default {
   },
   mounted() {
     let url = `./images/${('0000' + this.pid).slice(-4)}.jpg`
-    get(url, 'blob', xhr => {
-      let blob = xhr.response
-      this.src = window.URL.createObjectURL(blob)
+    $get(url, 'blob', xhr => {
+      this.src = window.URL.createObjectURL(xhr.response)
       // this.loading = false
     })
   },
@@ -45,9 +44,7 @@ export default {
     <div :class="$style.body" @click="goBack">
       <div v-if="loading" :class="$style.wrapper">
         <card-image :class="$style.image" :pid="pid"/>
-        <div :class="$style.dimmer">
-          <div :class="$style.loader"></div>
-        </div>
+        <div :class="$style.loader"></div>
       </div>
       <img v-else :class="$style.image" :src="src" :alt="alt"/>
     </div>
@@ -71,16 +68,6 @@ export default {
 }
 .wrapper {
   position: relative;
-}
-.dimmer {
-  opacity: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,.85);
-  user-select: none;
 }
 .loader {
   display: block;
