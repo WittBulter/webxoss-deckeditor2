@@ -29,10 +29,10 @@ export default {
     },
   },
   mounted() {
-    let url = `./images/${('0000' + this.pid).slice(-4)}.jpg`
+    let url = `./images/raw/${('0000' + this.pid).slice(-4)}.jpg`
     $get(url, 'blob', xhr => {
       this.src = window.URL.createObjectURL(xhr.response)
-      // this.loading = false
+      this.loading = false
     })
   },
 }
@@ -70,26 +70,14 @@ export default {
   position: relative;
 }
 .loader {
-  display: block;
   width: 3rem;
   height: 3rem;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: 0;
-  transform: translateX(-50%) translateY(-50%);
-  &::before {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 50%;
-    width: 3rem;
-    margin: 0 0 0 -1.5rem;
-    height: 100%;
-    border-radius: 500rem;
-    border: .3em solid rgba(0,0,0,.1);
-    border-color: rgba(255,255,255,.15);
-  }
+  transform: translate(-50%, -50%);
+
+  &::before,
   &::after {
     position: absolute;
     content: '';
@@ -98,16 +86,21 @@ export default {
     width: 3rem;
     margin: 0 0 0 -1.5rem;
     height: 100%;
-    animation: loader .6s linear;
-    animation-iteration-count: infinite;
     border-radius: 500rem;
-    border-color: #767676 transparent transparent;
+  }
+  &::before {
+    border: .3em solid color(#000 a(.1));
+    border-color: color(#fff a(.15));
+  }
+  &::after {
+    animation: spin .6s linear;
+    animation-iteration-count: infinite;
+    border-color: #eee transparent transparent;
     border-style: solid;
     border-width: .3em;
-    box-shadow: 0 0 0 1px transparent;
   }
 }
-@keyframes loader {
+@keyframes spin {
   from {
     transform: rotate(0deg);
   }
